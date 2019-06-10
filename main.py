@@ -19,10 +19,11 @@ def compare_cenario(placa):
             good.append([m])
 
     if (len(good) > 3):
-        # img = cv2.drawMatchesKnn(img1,kp1,img2,kp2,good,None,flags=2)
+        img = cv2.drawMatchesKnn(img1,kp1,img2,kp2,good,None,flags=2)
         print(placa,':',len(good))
-        # plt.imshow(img),plt.show()
+        plt.imshow(img),plt.show()
 
-img2 = cv2.imread('cenarios/cenario9.jpg',0)
+img2 = cv2.imread('cenarios/cenario5.jpg',0)
+
 for i in range(14):
     compare_cenario('positivas/placa'+str(i+1)+'.jpg')
