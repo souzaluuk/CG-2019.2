@@ -2,8 +2,9 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-def compare_cenario(placa):
-    img1 = cv2.imread(placa,0)
+def compare_cenario(cenario,placa):
+    img1 = placa
+    img2 = cenario
 
     sift = cv2.xfeatures2d.SIFT_create()
 
@@ -19,11 +20,23 @@ def compare_cenario(placa):
             good.append([m])
 
     if (len(good) > 3):
-        img = cv2.drawMatchesKnn(img1,kp1,img2,kp2,good,None,flags=2)
-        print(placa,':',len(good))
-        plt.imshow(img),plt.show()
+        # img = cv2.drawMatchesKnn(img1,kp1,img2,kp2,good,None,flags=2)
+        return True
+        # plt.imshow(img),plt.show()
+    return False
 
-img2 = cv2.imread('cenarios/cenario5.jpg',0)
+placas = [ cv2.imread('positivas/placa'+str(x+1)+'.jpg',0) for x in range(14) ]
+cenarios = [ cv2.imread('cenarios/cenario'+str(x+1)+'.jpg',0) for x in range(12) ]
 
-for i in range(14):
-    compare_cenario('positivas/placa'+str(i+1)+'.jpg')
+resultados = dict()
+
+for i_cenario in range(12):
+    nome_cenario = 'cenario'+str(i_cenario+1)+'.jpg'
+    resultados[nome_cenario] = []
+    for i_placa in range(14):
+        if compare_cenario(cenarios[i_cenario], placas[i_placa]):
+            nome_placa = 'placa'+str(i_placa+1)+'.jpg'
+            print(nome_cenario,':',nome_placa)
+            resultados[nome_cenario].append(nome_placa)
+
+print(resultados)
