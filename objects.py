@@ -8,7 +8,7 @@ def get_objects(src):
   #reading the image
   gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
   gray = cv2.equalizeHist(gray)
-  edged = cv2.Canny(gray, 100, 200)
+  edged = cv2.Canny(gray, 100, 255)
   cv2.imshow("Edges", edged)
   cv2.waitKey(0)
       
@@ -24,19 +24,18 @@ def get_objects(src):
   objs = []
   for c in cnts:
     # x, y, w, h = cv2.boundingRect(c)
-    # new_src = src[y: y + h, x: x + w]
-    # if not objs.__contains__(new_src):
-    #   objs.append(new_src)
-    # cv2.waitKey(0)
+    # if w > 100 and h > 100:
+    #   new_src = src[y: y + h, x: x + w]
+    #   if not objs.__contains__(new_src):
+    #     objs.append(new_src)
     peri = cv2.arcLength(c, True)
     approx = cv2.approxPolyDP(c, 0.02 * peri, True)
-    cv2.drawContours(src, [approx],-1, (0, 255, 0), 2)
-
-  # for o in objs: 
-  #   cv2.imshow(f'Object {1 + objs.index(o)}', o)
-  #   cv2.waitKey(0)
+    cv2.drawContours(src, [approx], -1, (0, 255, 0), 2)
+  return objs
 
 img = cv2.imread('cenarios/cenario2.jpg')
-get_objects(img)
+objs = get_objects(img)
+for i in objs:
+  cv2.imshow(f'Object {1 + objs.index(i)}', i)
 cv2.imshow('Output', img)
 cv2.waitKey(0)
