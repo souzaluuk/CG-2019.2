@@ -26,21 +26,21 @@ def compare_cenario(cenario,placa):
         # plt.imshow(img),plt.show()
     return False
 
-qt_placas = len(os.listdir('positivas'))
-qt_cenarios = len(os.listdir('cenarios'))
+lista_placas = os.listdir('positivas')
+lista_cenarios = os.listdir('cenarios')
 
-placas = [ cv2.imread('positivas/placa'+str(x+1)+'.jpg',0) for x in range(qt_placas) ]
-cenarios = [ cv2.imread('cenarios/cenario'+str(x+1)+'.jpg',0) for x in range(qt_cenarios) ]
+placas = [ cv2.imread('positivas/'+placa,0) for placa in lista_placas ]
+cenarios = [ cv2.imread('cenarios/'+cenario,0) for cenario in lista_cenarios ]
 
 resultados = dict()
 
-for i_cenario in range(qt_cenarios):
-    nome_cenario = 'cenario'+str(i_cenario+1)+'.jpg'
+for i_cenario in range(len(lista_cenarios)):
+    nome_cenario = lista_cenarios[i_cenario]
     resultados[nome_cenario] = []
-    for i_placa in range(qt_placas):
+    for i_placa in range(len(lista_placas)):
         e1 = cv2.getTickCount()
         if compare_cenario(cenarios[i_cenario], placas[i_placa]):
-            nome_placa = 'placa'+str(i_placa+1)+'.jpg'
+            nome_placa = lista_placas[i_placa]
             print(nome_cenario,':',nome_placa,end=' ')
             resultados[nome_cenario].append(nome_placa)
         e2 = cv2.getTickCount()
