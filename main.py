@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+import os
 
 def compare_cenario(cenario,placa):
     img1 = placa
@@ -25,15 +26,18 @@ def compare_cenario(cenario,placa):
         # plt.imshow(img),plt.show()
     return False
 
-placas = [ cv2.imread('positivas/placa'+str(x+1)+'.jpg',0) for x in range(14) ]
-cenarios = [ cv2.imread('cenarios/cenario'+str(x+1)+'.jpg',0) for x in range(12) ]
+qt_placas = len(os.listdir('positivas'))
+qt_cenarios = len(os.listdir('cenarios'))
+
+placas = [ cv2.imread('positivas/placa'+str(x+1)+'.jpg',0) for x in range(qt_placas) ]
+cenarios = [ cv2.imread('cenarios/cenario'+str(x+1)+'.jpg',0) for x in range(qt_cenarios) ]
 
 resultados = dict()
 
-for i_cenario in range(12):
+for i_cenario in range(qt_cenarios):
     nome_cenario = 'cenario'+str(i_cenario+1)+'.jpg'
     resultados[nome_cenario] = []
-    for i_placa in range(14):
+    for i_placa in range(qt_placas):
         e1 = cv2.getTickCount()
         if compare_cenario(cenarios[i_cenario], placas[i_placa]):
             nome_placa = 'placa'+str(i_placa+1)+'.jpg'
@@ -41,7 +45,7 @@ for i_cenario in range(12):
             resultados[nome_cenario].append(nome_placa)
         e2 = cv2.getTickCount()
         time = (e2 - e1)/cv2.getTickFrequency()
-        print('segundos:',time)
+        print('tempo:',str(time)+'s')
 
 print()
 for cenario in resultados.keys():
