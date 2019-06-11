@@ -34,9 +34,15 @@ for i_cenario in range(12):
     nome_cenario = 'cenario'+str(i_cenario+1)+'.jpg'
     resultados[nome_cenario] = []
     for i_placa in range(14):
+        e1 = cv2.getTickCount()
         if compare_cenario(cenarios[i_cenario], placas[i_placa]):
             nome_placa = 'placa'+str(i_placa+1)+'.jpg'
-            print(nome_cenario,':',nome_placa)
+            print(nome_cenario,':',nome_placa,end=' ')
             resultados[nome_cenario].append(nome_placa)
+        e2 = cv2.getTickCount()
+        time = (e2 - e1)/cv2.getTickFrequency()
+        print('segundos:',time)
 
-print(resultados)
+print()
+for cenario in resultados.keys():
+    print(cenario,':',resultados[cenario])
