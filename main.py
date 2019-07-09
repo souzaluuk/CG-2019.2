@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 import os
+import utils
 
 def compare_cenario(cenario,placa):
     img1 = placa
@@ -16,14 +17,19 @@ def compare_cenario(cenario,placa):
     matches = bf.knnMatch(des1,des2, k=2)
 
     good = []
+    set_matches = dict()
     for m,n in matches:
-        if m.distance < 0.7*n.distance:
-            good.append([m])
+        if m.distance/n.distance < 0.8:
+            set_matches[m.trainIdx] = m
 
-    if (len(good) > 3):
+    if len(set_matches) > 1:
+        keysNoOutliers = utils.noOutliers(list(set_matches.keys()))
+        good = [ [set_matches[key]] for key in keysNoOutliers]
+
+    if (len(good) > 5):
         # img = cv2.drawMatchesKnn(img1,kp1,img2,kp2,good,None,flags=2)
-        return True
         # plt.imshow(img),plt.show()
+        return True
     return False
 
 lista_placas = os.listdir('positivas')
