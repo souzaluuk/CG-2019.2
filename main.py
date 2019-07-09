@@ -27,13 +27,13 @@ def compare_cenario(cenario,placa):
         good = [ [set_matches[key]] for key in keysNoOutliers]
 
     if (len(good) > 5):
-        # img = cv2.drawMatchesKnn(img1,kp1,img2,kp2,good,None,flags=2)
-        # plt.imshow(img),plt.show()
+        img = cv2.drawMatchesKnn(img1,kp1,img2,kp2,good,None,flags=2)
+        plt.imshow(img),plt.show()
         return True
     return False
 
 lista_placas = os.listdir('positivas')
-lista_cenarios = os.listdir('cenarios')
+lista_cenarios = sorted(os.listdir('cenarios'))
 
 placas = [ cv2.imread('positivas/'+placa,0) for placa in lista_placas ]
 cenarios = [ cv2.imread('cenarios/'+cenario,0) for cenario in lista_cenarios ]
